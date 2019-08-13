@@ -1,4 +1,4 @@
-//Jonathan Simpson. 8/8/19. Create a set of grid tiles. Each grid tile needs to know if it has a neighbor to each of its sides, or if it does NOT have a neighbor to each side.
+//8/8/19. Create a set of grid tiles. Each grid tile needs to know if it has a neighbor to each of its sides, or if it does NOT have a neighbor to each side.
 #include <iostream>
 #include <vector>
 
@@ -15,7 +15,7 @@ public:
 private:
 	short int north = 0;	//0 = NO neighbor or connection in this direction.
 	short int south = 0;	//1 = Has a connection or neighbor in this direction.
-	short int east = 0;		//May want to add different types of connections later on. Hence, short int instead of bool 
+	short int east = 0;	//May want to add different types of connections later on. Hence, short int instead of bool 
 	short int west = 0;
 
 };
@@ -45,57 +45,58 @@ class Board
 {
 public:
 	Board();
-	void Testing();
 
 private:
-	vector<vector<GridTile>> board;
+	void Testing();
+	vector<vector<GridTile>> gameboard;
 	const int colSize = 12;
-	const int rows = 7;
+	const int rows = 12;
 
 };
 
 Board::Board()
 {
-	board.resize(rows, vector<GridTile>(colSize));			//Size our vector appropriately.
+	gameboard.resize(rows, vector<GridTile>(colSize));		
 
-	for (int i = 0; i < rows; i++)							//Set the direction connections for each grid tile. 
+	for (int i = 0; i < rows; i++)					//Set the direction connections for each grid tile. 
 	{
 		
 		for (int x = 0; x < colSize; x++)
 		{
-			if (i == 0)										//Top row
+			if (i == 0)								//Top row
 			{
 				if (x == 0)								
-					board[i][x].SetDir(0, 1, 1, 0);		//Top left corner. (South and east connections)
+					gameboard[i][x].SetDir(0, 1, 1, 0);		//Top left corner. (South and east connections)
 				if (x == colSize - 1)
-					board[i][x].SetDir(0, 1, 0, 1);		//Top right corner (South & West.)
+					gameboard[i][x].SetDir(0, 1, 0, 1);		//Top right corner (South & West.)
 				if (x > 0 && x < colSize - 1)			
-					board[i][x].SetDir(0, 1, 1, 1);		//Top middle tiles. (South, east, and west.)
+					gameboard[i][x].SetDir(0, 1, 1, 1);		//Top middle tiles. (South, east, and west.)
 			}
 
 			if (i > 0 && i < rows - 1)						//Middle rows
 			{
-				if (x == 0)								//First tile in each middle row (North, south, and east. No west)
-					board[i][x].SetDir(1, 1, 1, 0);			
-				if (x == colSize - 1)					//Last tile in each middle row (North, south, and west. No east)
-					board[i][x].SetDir(1, 1, 0, 1);
-				if (x > 0 && x < colSize - 1)			//The middle tiles in each middle row (North, south, east, and west)
-					board[i][x].SetDir(1, 1, 1, 1);
+				if (x == 0)						//First tile (North, south, and east)
+					gameboard[i][x].SetDir(1, 1, 1, 0);			
+				if (x == colSize - 1)					//Last tile (North, south, and west)
+					gameboard[i][x].SetDir(1, 1, 0, 1);
+				if (x > 0 && x < colSize - 1)				//Middle tiles (North, south, east, and west)
+					gameboard[i][x].SetDir(1, 1, 1, 1);
 			}
 
-			if (i == rows - 1)								//Bottom row
+			if (i == rows - 1)							//Bottom row
 			{
-				if (x == 0)								//Bottom left. (North, East)
-					board[i][x].SetDir(1, 0, 1, 0);
+				if (x == 0)						//Bottom left. (North, East)
+					gameboard[i][x].SetDir(1, 0, 1, 0);
 				if (x == colSize - 1)					//Bottom right. (North, West)
-					board[i][x].SetDir(1, 0, 0, 1);
-				if (x > 0 && x < colSize - 1)			//Middle bottom. (North, East, West)
-					board[i][x].SetDir(1, 0, 1, 1);
+					gameboard[i][x].SetDir(1, 0, 0, 1);
+				if (x > 0 && x < colSize - 1)				//Middle bottom. (North, East, West)
+					gameboard[i][x].SetDir(1, 0, 1, 1);
 			}
 			
 		}
 	}
 
+	Testing();
 }
 
 void Board::Testing()	//Test our grid.
@@ -104,7 +105,7 @@ void Board::Testing()	//Test our grid.
 	{
 		for (int x = 0; x < colSize; x++)
 		{
-			board[i][x].SayDirections();
+			gameboard[i][x].SayDirections();
 			if (x == colSize - 1)
 				cout << " \n";
 		}
@@ -114,7 +115,6 @@ void Board::Testing()	//Test our grid.
 int main()
 {
 	Board theBoard;
-	theBoard.Testing();
 }
 
-
+				
